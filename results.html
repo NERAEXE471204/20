@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты поиска - Unisource</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .user-info h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .universities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .university-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .university-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .university-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .university-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .university-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .university-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .match-score {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        .university-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .university-info h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .university-info p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-item .label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item .value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tag.highlight {
+            background: #667eea;
+            color: white;
+        }
+
+        .deadlines {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .deadlines h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .deadline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .deadline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .deadline-date {
+            font-weight: 600;
+            color: #dc3545;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+
+        .no-results h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .no-results p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .filter-bar {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-controls select,
+        .filter-controls input {
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .universities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="questionnaire.html" class="back-link">← Изменить анкету</a>
+        
+        <div class="header">
+            <h1>Твои подходящие университеты</h1>
+            <p>На основе твоей анкеты мы нашли университеты, которые лучше всего подходят твоим интересам и возможностям.</p>
+            <div class="user-info" id="userInfo">
+                <h3>Твой профиль</h3>
+                <p id="profileSummary">Загрузка...</p>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="filter-controls">
+                <select id="sortBy">
+                    <option value="match">По совпадению</option>
+                    <option value="name">По названию</option>
+                    <option value="cost">По стоимости</option>
+                    <option value="location">По городу</option>
+                </select>
+                <select id="filterLocation">
+                    <option value="">Все города</option>
+                    <option value="Москва">Москва</option>
+                    <option value="Санкт-Петербург">Санкт-Петербург</option>
+                    <option value="Новосибирск">Новосибирск</option>
+                    <option value="Екатеринбург">Екатеринбург</option>
+                </select>
+                <select id="filterBudget">
+                    <option value="">Любой бюджет</option>
+                    <option value="free">Бесплатно</option>
+                    <option value="low">До 100k</option>
+                    <option value="medium">100k-300k</option>
+                    <option value="high">300k+</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="universities-grid" id="universitiesGrid">
+            <!-- Universities will be populated by JavaScript -->
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <h2>Не найдено подходящих университетов</h2>
+            <p>Попробуй изменить параметры поиска или заполни анкету заново.</p>
+        </div>
+    </div>
+
+    <script>
+        // Mock university data
+        const universitiesData = [
+            {
+                id: 1,
+                name: "МГУ им. М.В. Ломоносова",
+                location: "Москва",
+                logo: "МГУ",
+                description: "Ведущий классический университет России с богатой историей и высокими стандартами образования.",
+                cost: "Бесплатно",
+                costCategory: "free",
+                rating: 5.0,
+                programs: ["Математика", "Физика", "Биология", "Журналистика", "Психология"],
+                matchScore: 95,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Вступительные экзамены": "15 августа",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 75 баллов", "Портфолио", "Собеседование"],
+                tags: ["Престижный", "Бесплатный", "Москва", "Классический"]
+            },
+            {
+                id: 2,
+                name: "МФТИ",
+                location: "Москва",
+                logo: "МФТИ",
+                description: "Лучший технический вуз России, известный своей системой подготовки физиков и программистов.",
+                cost: "Бесплатно",
+                costCategory: "free",
+                rating: 4.9,
+                programs: ["Прикладная математика", "Физика", "Информатика", "Биоинформатика"],
+                matchScore: 88,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Олимпиады": "1 марта",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 80 баллов", "Олимпиады", "Дополнительные экзамены"],
+                tags: ["Технический", "Элитный", "Москва", "IT"]
+            },
+            {
+                id: 3,
+                name: "СПбГУ",
+                location: "Санкт-Петербург",
+                logo: "СПбГУ",
+                description: "Один из старейших и престижнейших университетов России с широким спектром направлений.",
+                cost: "Бесплатно",
+                costCategory: "free",
+                rating: 4.8,
+                programs: ["Филология", "История", "Юриспруденция", "Биология", "Математика"],
+                matchScore: 85,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Вступительные экзамены": "10 августа",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 70 баллов", "Дополнительные испытания", "Собеседование"],
+                tags: ["Классический", "Исторический", "СПб", "Престижный"]
+            },
+            {
+                id: 4,
+                name: "НИУ ВШЭ",
+                location: "Москва",
+                logo: "ВШЭ",
+                description: "Ведущий экономический университет России с сильными программами в области бизнеса и IT.",
+                cost: "150 000 руб/год",
+                costCategory: "medium",
+                rating: 4.7,
+                programs: ["Экономика", "Менеджмент", "Программная инженерия", "Дизайн", "Журналистика"],
+                matchScore: 82,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Творческие конкурсы": "1 июня",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 75 баллов", "Портфолио", "Творческие испытания"],
+                tags: ["Экономический", "Современный", "Москва", "Бизнес"]
+            },
+            {
+                id: 5,
+                name: "ИТМО",
+                location: "Санкт-Петербург",
+                logo: "ИТМО",
+                description: "Университет точных наук и информационных технологий с мировым признанием в области IT.",
+                cost: "120 000 руб/год",
+                costCategory: "medium",
+                rating: 4.6,
+                programs: ["Информатика", "Прикладная математика", "Биотехнологии", "Дизайн", "Фотоника"],
+                matchScore: 78,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Олимпиады": "1 апреля",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 70 баллов", "Портфолио", "Олимпиады"],
+                tags: ["IT", "Инновационный", "СПб", "Технический"]
+            },
+            {
+                id: 6,
+                name: "РУДН",
+                location: "Москва",
+                logo: "РУДН",
+                description: "Международный университет с программами на разных языках и сильной медицинской школой.",
+                cost: "180 000 руб/год",
+                costCategory: "medium",
+                rating: 4.4,
+                programs: ["Медицина", "Международные отношения", "Лингвистика", "Инженерия", "Право"],
+                matchScore: 75,
+                deadlines: {
+                    "Подача документов": "20 июля",
+                    "Языковые экзамены": "1 июня",
+                    "Зачисление": "25 августа"
+                },
+                requirements: ["ЕГЭ от 65 баллов", "Языковые сертификаты", "Медосмотр"],
+                tags: ["Международный", "Медицинский", "Москва", "Многопрофильный"]
+            }
+        ];
+
+        let currentUniversities = [...universitiesData];
+        let userData = {};
+
+        // Load user data from localStorage
+        function loadUserData() {
+            const savedData = localStorage.getItem('questionnaireData');
+            if (savedData) {
+                userData = JSON.parse(savedData);
+                updateUserProfile();
+            }
+        }
+
+        // Update user profile display
+        function updateUserProfile() {
+            const profileSummary = document.getElementById('profileSummary');
+            const interests = Array.isArray(userData.interests) ? userData.interests.join(', ') : userData.interests || 'Не указано';
+            const subjects = Array.isArray(userData.subjects) ? userData.subjects.join(', ') : userData.subjects || 'Не указано';
+            
+            profileSummary.innerHTML = `
+                <strong>${userData.name || 'Студент'}</strong>, ${userData.age || 'возраст не указан'} лет, ${userData.city || 'город не указан'}<br>
+                <strong>Интересы:</strong> ${interests}<br>
+                <strong>Любимые предметы:</strong> ${subjects}<br>
+                <strong>Средний балл:</strong> ${userData.grade || 'не указан'}<br>
+                <strong>Бюджет:</strong> ${getBudgetText(userData.budget)}
+            `;
+        }
+
+        // Get budget text
+        function getBudgetText(budget) {
+            const budgetMap = {
+                'free': 'Бесплатное обучение',
+                'low': 'До 100 000 рублей',
+                'medium': '100 000 - 300 000 рублей',
+                'high': '300 000 - 500 000 рублей',
+                'premium': 'Более 500 000 рублей'
+            };
+            return budgetMap[budget] || 'Не указан';
+        }
+
+        // Calculate match score based on user data
+        function calculateMatchScore(university) {
+            let score = 50; // Base score
+
+            // Interest matching
+            if (userData.interests && Array.isArray(userData.interests)) {
+                const matchingPrograms = university.programs.filter(program => 
+                    userData.interests.some(interest => 
+                        program.toLowerCase().includes(interest.toLowerCase()) ||
+                        interest.toLowerCase().includes(program.toLowerCase())
+                    )
+                );
+                score += matchingPrograms.length * 10;
+            }
+
+            // Subject matching
+            if (userData.subjects && Array.isArray(userData.subjects)) {
+                const matchingSubjects = university.programs.filter(program => 
+                    userData.subjects.some(subject => 
+                        program.toLowerCase().includes(subject.toLowerCase()) ||
+                        subject.toLowerCase().includes(program.toLowerCase())
+                    )
+                );
+                score += matchingSubjects.length * 8;
+            }
+
+            // Budget matching
+            if (userData.budget) {
+                if (userData.budget === 'free' && university.costCategory === 'free') {
+                    score += 20;
+                } else if (userData.budget === university.costCategory) {
+                    score += 15;
+                }
+            }
+
+            // Location matching
+            if (userData.location && Array.isArray(userData.location)) {
+                if (userData.location.includes('moscow') && university.location === 'Москва') {
+                    score += 10;
+                } else if (userData.location.includes('petersburg') && university.location === 'Санкт-Петербург') {
+                    score += 10;
+                }
+            }
+
+            return Math.min(score, 100);
+        }
+
+        // Update match scores
+        function updateMatchScores() {
+            currentUniversities.forEach(university => {
+                university.matchScore = calculateMatchScore(university);
+            });
+        }
+
+        // Render universities
+        function renderUniversities() {
+            const grid = document.getElementById('universitiesGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (currentUniversities.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            grid.innerHTML = currentUniversities.map(university => `
+                <div class="university-card">
+                    <div class="university-header">
+                        <div class="university-logo">${university.logo}</div>
+                        <div>
+                            <div class="university-name">${university.name}</div>
+                            <div class="university-location">${university.location}</div>
+                        </div>
+                        <div class="match-score">${university.matchScore}% совпадение</div>
+                    </div>
+                    
+                    <div class="university-info">
+                        <p>${university.description}</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="label">Стоимость</div>
+                                <div class="value">${university.cost}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Рейтинг</div>
+                                <div class="value">${university.rating}/5</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="label">Программы</div>
+                                <div class="value">${university.programs.length}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="tags">
+                            ${university.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        
+                        <div class="deadlines">
+                            <h4>📅 Важные даты</h4>
+                            ${Object.entries(university.deadlines).map(([event, date]) => `
+                                <div class="deadline-item">
+                                    <span>${event}</span>
+                                    <span class="deadline-date">${date}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="showDetails(${university.id})">
+                            Подробнее
+                        </button>
+                        <button class="btn btn-secondary" onclick="addToFavorites(${university.id})">
+                            В избранное
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show university details
+        function showDetails(universityId) {
+            const university = universitiesData.find(u => u.id === universityId);
+            alert(`Подробная информация о ${university.name}:\n\n` + 
+                  `📍 Местоположение: ${university.location}\n` +
+                  `💰 Стоимость: ${university.cost}\n` +
+                  `📚 Программы: ${university.programs.join(', ')}\n` +
+                  `📋 Требования: ${university.requirements.join(', ')}\n\n` +
+                  `Для получения полной информации посетите официальный сайт университета.`);
+        }
+
+        // Add to favorites
+        function addToFavorites(universityId) {
+            const university = universitiesData.find(u => u.id === universityId);
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            
+            if (!favorites.some(f => f.id === universityId)) {
+                favorites.push(university);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                alert(`${university.name} добавлен в избранное!`);
+            } else {
+                alert(`${university.name} уже в избранном!`);
+            }
+        }
+
+        // Filter and sort functions
+        function filterUniversities() {
+            const locationFilter = document.getElementById('filterLocation').value;
+            const budgetFilter = document.getElementById('filterBudget').value;
+            
+            currentUniversities = universitiesData.filter(university => {
+                const locationMatch = !locationFilter || university.location === locationFilter;
+                const budgetMatch = !budgetFilter || university.costCategory === budgetFilter;
+                
+                return locationMatch && budgetMatch;
+            });
+            
+            sortUniversities();
+        }
+
+        function sortUniversities() {
+            const sortBy = document.getElementById('sortBy').value;
+            
+            currentUniversities.sort((a, b) => {
+                switch (sortBy) {
+                    case 'match':
+                        return b.matchScore - a.matchScore;
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'cost':
+                        return a.cost.localeCompare(b.cost);
+                    case 'location':
+                        return a.location.localeCompare(b.location);
+                    default:
+                        return 0;
+                }
+            });
+            
+            renderUniversities();
+        }
+
+        // Event listeners
+        document.getElementById('sortBy').addEventListener('change', sortUniversities);
+        document.getElementById('filterLocation').addEventListener('change', filterUniversities);
+        document.getElementById('filterBudget').addEventListener('change', filterUniversities);
+
+        // Initialize
+        loadUserData();
+        updateMatchScores();
+        sortUniversities();
+    </script>
+</body>
+</html>

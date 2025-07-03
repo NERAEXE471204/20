@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета студента - Unisource</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .range-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .range-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .range-item label {
+            margin-bottom: 0.5rem;
+        }
+
+        .range-item input[type="range"] {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .range-value {
+            text-align: center;
+            font-weight: 500;
+            color: #667eea;
+        }
+
+        .submit-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.8;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .form-container {
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Назад на главную</a>
+        
+        <div class="form-container">
+            <div class="header">
+                <h1>Расскажи о себе</h1>
+                <p>Заполни анкету, чтобы мы могли подобрать университеты, которые идеально подойдут именно тебе</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <form id="questionnaireForm" action="results.html" method="get">
+                <div class="form-section">
+                    <h2>Основная информация</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">Как тебя зовут?</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Возраст</label>
+                        <select id="age" name="age" required>
+                            <option value="">Выбери возраст</option>
+                            <option value="15">15 лет</option>
+                            <option value="16">16 лет</option>
+                            <option value="17">17 лет</option>
+                            <option value="18">18 лет</option>
+                            <option value="19">19 лет</option>
+                            <option value="20+">20+ лет</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city">Город</label>
+                        <input type="text" id="city" name="city" placeholder="Например, Москва" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Академические достижения</h2>
+                    
+                    <div class="form-group">
+                        <label for="grade">Средний балл (по 5-балльной шкале)</label>
+                        <select id="grade" name="grade" required>
+                            <option value="">Выбери средний балл</option>
+                            <option value="5">5 (отлично)</option>
+                            <option value="4.5">4.5</option>
+                            <option value="4">4 (хорошо)</option>
+                            <option value="3.5">3.5</option>
+                            <option value="3">3 (удовлетворительно)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subjects">Любимые предметы</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="math" name="subjects" value="math">
+                                <label for="math">Математика</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="physics" name="subjects" value="physics">
+                                <label for="physics">Физика</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="chemistry" name="subjects" value="chemistry">
+                                <label for="chemistry">Химия</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="biology" name="subjects" value="biology">
+                                <label for="biology">Биология</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="literature" name="subjects" value="literature">
+                                <label for="literature">Литература</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="history" name="subjects" value="history">
+                                <label for="history">История</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="languages" name="subjects" value="languages">
+                                <label for="languages">Иностранные языки</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="art" name="subjects" value="art">
+                                <label for="art">Искусство</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Интересы и предпочтения</h2>
+                    
+                    <div class="form-group">
+                        <label for="interests">Сферы интересов</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="technology" name="interests" value="technology">
+                                <label for="technology">Технологии и IT</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="medicine" name="interests" value="medicine">
+                                <label for="medicine">Медицина</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="business" name="interests" value="business">
+                                <label for="business">Бизнес и экономика</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="engineering" name="interests" value="engineering">
+                                <label for="engineering">Инженерия</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="design" name="interests" value="design">
+                                <label for="design">Дизайн</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="psychology" name="interests" value="psychology">
+                                <label for="psychology">Психология</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="journalism" name="interests" value="journalism">
+                                <label for="journalism">Журналистика</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="law" name="interests" value="law">
+                                <label for="law">Юриспруденция</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budget">Бюджет на образование (в год)</label>
+                        <select id="budget" name="budget" required>
+                            <option value="">Выбери бюджет</option>
+                            <option value="free">Бесплатное обучение</option>
+                            <option value="low">До 100 000 рублей</option>
+                            <option value="medium">100 000 - 300 000 рублей</option>
+                            <option value="high">300 000 - 500 000 рублей</option>
+                            <option value="premium">Более 500 000 рублей</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Предпочтения по локации</h2>
+                    
+                    <div class="form-group">
+                        <label for="location">Где хочешь учиться?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hometown" name="location" value="hometown">
+                                <label for="hometown">В своём городе</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="moscow" name="location" value="moscow">
+                                <label for="moscow">Москва</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="petersburg" name="location" value="petersburg">
+                                <label for="petersburg">Санкт-Петербург</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="regional" name="location" value="regional">
+                                <label for="regional">Региональные центры</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="abroad" name="location" value="abroad">
+                                <label for="abroad">За границей</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Дополнительная информация</h2>
+                    
+                    <div class="form-group">
+                        <label for="achievements">Достижения и награды</label>
+                        <textarea id="achievements" name="achievements" placeholder="Расскажи о своих достижениях: олимпиады, конкурсы, спортивные достижения и т.д."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goals">Цели после окончания университета</label>
+                        <textarea id="goals" name="goals" placeholder="Кем видишь себя через 5-10 лет? Какие карьерные цели?"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">Найти подходящие университеты</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('questionnaireForm');
+        const progressBar = document.getElementById('progressBar');
+        const formSections = document.querySelectorAll('.form-section');
+        
+        function updateProgress() {
+            const totalFields = form.querySelectorAll('input[required], select[required]').length;
+            const filledFields = form.querySelectorAll('input[required]:valid, select[required]:valid').length;
+            const progress = (filledFields / totalFields) * 100;
+            progressBar.style.width = progress + '%';
+        }
+        
+        form.addEventListener('input', updateProgress);
+        form.addEventListener('change', updateProgress);
+        
+        // Smooth scrolling for form sections
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        formSections.forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+        
+        // Form submission handling
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Process regular fields
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Store data in localStorage for results page
+            localStorage.setItem('questionnaireData', JSON.stringify(data));
+            
+            // Redirect to results page
+            window.location.href = 'results.html';
+        });
+        
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>
